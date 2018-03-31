@@ -13,11 +13,39 @@ public class Date {
 		this.year = 2018;
 	}
 
-	// Constructor mal programado: Permite crear fechas no validas
-	public Date(int day, int month, int year){
-		this.day = day;
-		this.month = month;
+	public Date(int day, int month, int year) throws DateException{
 		this.year = year;
+		if (month < 1 || month > 12) {
+			throw new DateException("Mes " + month + " no valido" +
+					" Valores posibles entre 1 y 12.");
+		} else {
+			this.month = month;
+		}
+		if (day < 1 || day > 31) {
+			throw new DateException("Dia " + day + " no valido. Valores posibles entre 1 y 31.");
+		} else {
+			switch(month) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				if (day > 30) {
+					throw new DateException("Dia " + day + " no valido. Valores posibles entre 1 y 30.");
+				} else {
+					this.day = day;
+				}
+				break;
+			case 2:
+				if (day > 28) {
+					throw new DateException("Dia " + day + " no valido. Valores posibles entre 1 y 28.");
+				} else {
+					this.day = day;
+				}
+				break;
+			default:
+				this.day = day;				
+			}
+		}
 	}
 
 	public Date(Date another) {
@@ -304,7 +332,7 @@ public class Date {
 		}
 	}
 
-	Date tomorrow() {
+	Date tomorrow() throws DateException {
 		Date tomorrow = new Date();
 		switch(this.month) {
 			case 1:
